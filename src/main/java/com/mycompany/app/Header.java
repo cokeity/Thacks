@@ -6,7 +6,8 @@ public class Header extends HTMLElement{
 
     private String text;
 
-    public Header(String text){
+    public Header(String text, String type){
+        super(type);
         this.text = text;
     }
 
