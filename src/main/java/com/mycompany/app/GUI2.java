@@ -146,7 +146,23 @@ public class GUI2 {
 
     }
 
+    public static void remove() {
+        
+        for (JLabel l : html_labels){
+            code_view.remove(l);
+            code_view.revalidate();
+            code_view.repaint();
+        
+        }
+        for (JLabel l : css_labels){
+            code_view.remove(l);
+            code_view.revalidate();
+            code_view.repaint();
+        }
+    }
+
     public static void update(Page page) {
+        remove();
         ArrayList<Container> all_containers =  page.get_containers();
         String[] html_type = make_types_html(all_containers);
         String[] css_type = make_types_css(all_containers);

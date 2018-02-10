@@ -87,7 +87,7 @@ public class Comm {
             , int width, int height)
     {
         switch (sig) {
-            case "1" :
+            case "0" :
              //   if (!page_exists(x, y)){
                 if (page == null){
                     Page p = new Page(pid, x, y, width, height);
@@ -101,18 +101,19 @@ public class Comm {
              //       pages.add(p);
               //  }
                 break;
-            case "2" :
+            case "1" :
                 //Page p = get_page(x, y);
                 if (page != null){
                     Header h = new Header("enter text here", "header");
                     Container n = new Container(classname+Integer.toString(cname), "absolute"
                             , Integer.toString(x), Integer.toString(y), h, page.get_id()
                             , x, y, width, height);
+                    System.out.println(n.to_html());
                     cname++;
                     page.add_container(n);
                 }
                 break;
-            case "3" :
+            case "2" :
                 //p = get_page(x, y);
                 if (page != null){
                     Paragraph par = new Paragraph("enter paragraph here", "paragraph");
@@ -123,7 +124,7 @@ public class Comm {
                     page.add_container(n);
                 }
                 break;
-            case "4" :
+            case "3" :
                 //p = get_page(x, y);
                 if (page != null){
                     Image im = new Image("enter image source here", "image");
@@ -156,42 +157,45 @@ public class Comm {
         HashSet<String> containers = new HashSet<String>();
 
         for (i = 0; i < lines.length; i++){
-            String[] sig_split = lines[i].split("sig: ");
-            String[] split_two = sig_split[1].split(" ", 2);
-            sig = split_two[0];
-            String[] x_split = split_two[1].split("x: ");
-            String[] split_three = x_split[1].split(" ", 2);
-            x = split_three[0];
-            String[] y_split = split_three[1].split("y: ");
-            String[] split_four = y_split[1].split(" ", 2);
-            y = split_four[0];
-            String[] width_split = split_four[1].split("width: ");
-            String[] split_five = width_split[1].split(" ", 2);
-            width = split_five[0];
-            String[] height_split = split_five[1].split("height: ");
-            String[] split_six = height_split[1].split(" ", 2);
-            height = split_six[0];
-            try {
-                
-                if (sig.equals("1")){
-                    //pages.add(x + ":" + y);
-                } else {
-                    containers.add(x + ":" + y);
-                }
+            if (!lines[i].equals("")){
+                System.out.println("parsing line "+lines[i]);
+                String[] sig_split = lines[i].split("sig: ");
+                String[] split_two = sig_split[1].split(" ", 2);
+                sig = split_two[0];
+                String[] x_split = split_two[1].split("x: ");
+                String[] split_three = x_split[1].split(" ", 2);
+                x = split_three[0];
+                String[] y_split = split_three[1].split("y: ");
+                String[] split_four = y_split[1].split(" ", 2);
+                y = split_four[0];
+                String[] width_split = split_four[1].split("width: ");
+                String[] split_five = width_split[1].split(" ", 2);
+                width = split_five[0];
+                String[] height_split = split_five[1].split("height: ");
+                String[] split_six = height_split[1].split(" ", 2);
+                height = split_six[0];
+                try {
+                    
+                    if (sig.equals("")){
+                        //pages.add(x + ":" + y);
+                    } else {
+                        containers.add(x + ":" + y);
+                    }
 
-                int ix = Integer.parseInt(x);
-                int iy = Integer.parseInt(x);
-                int iwidth = Integer.parseInt(x);
-                int iheight = Integer.parseInt(x);
-                process_request_line(sig, ix, iy, iwidth, iheight);
-            } catch (Exception E){
-                System.out.println("bad request: " + update_request);
+                    int ix = Integer.parseInt(x);
+                    int iy = Integer.parseInt(x);
+                    int iwidth = Integer.parseInt(x);
+                    int iheight = Integer.parseInt(x);
+                    process_request_line(sig, ix, iy, iwidth, iheight);
+                } catch (Exception E){
+                    System.out.println("bad request: " + update_request);
+                }
+                sig = "";
+                x = "";
+                y = "";
+                width = "";
+                height = "";
             }
-            sig = "";
-            x = "";
-            y = "";
-            width = "";
-            height = "";
         }
         //filter_pages(pages);
         filter_containers(containers);
@@ -203,7 +207,7 @@ public class Comm {
 
         g.setup();
         
-        SerialPort sp = SerialPort.getCommPort("/dev/cu.usbmodem1421");
+        SerialPort sp = SerialPort.getCommPort("/dev/cu.usbmodem1411");
 
         sp.setComPortParameters(9600, 8, 1, 0);
 
@@ -235,21 +239,25 @@ public class Comm {
                 {
                     form_request = true;
                 }
-                else if (resp.contains("EP"))
+                else if (resp.contains("EP") && !update_request.equals(""))
                 {
                     form_request = false;
                     
                     System.out.println("sending request\n\n"+update_request);
                     process_request_body(update_request);
                     g.update(page);
+                    System.out.println("containerssssssssssss: "+page.get_containers().size());
+                    Thread.sleep(10000);
                     System.out.println(update_request);
                     update_request = "";
+                
                 }
                 else if (form_request)
                 {
+                    if (resp.contains("sig: ") && resp.contains("x: ") && resp.contains("y: ") && resp.contains("width: ") && resp.contains("height: "))
                     update_request += resp;
                 }
-                
+                 
                 resp = "";
             }
             resp += x;
