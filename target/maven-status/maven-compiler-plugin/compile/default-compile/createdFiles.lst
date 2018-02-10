@@ -1,9 +1,10 @@
 com/mycompany/app/Container.class
-com/mycompany/app/test.class
+com/mycompany/app/test$2.class
+com/mycompany/app/test$1.class
 com/mycompany/app/PositionCSS.class
-com/mycompany/app/Paragraph.class
+com/mycompany/app/test.class
 com/mycompany/app/Header.class
+com/mycompany/app/Paragraph.class
 com/mycompany/app/HTMLElement.class
 com/mycompany/app/Image.class
-com/mycompany/app/MoreDraw.class
 com/mycompany/app/page.class
