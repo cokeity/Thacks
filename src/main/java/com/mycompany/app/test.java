@@ -14,7 +14,11 @@ public class test {
     public static ArrayList<JLabel> blox = new ArrayList<JLabel>();
     public static JLabel wireframe;
 
-    public static void main(String[] args){
+    public test(){
+
+    }
+
+    public static void setup(){
         System.out.println("Hello World");
 
         //set colors

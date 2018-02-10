@@ -41,7 +41,9 @@ public class Container{
     }
 
     public String to_html(){
-        return element.toString();
+        return "<html>&lt;div class=\""+classname+"\"&gt;<br/>"+
+                "&emsp;"+element.toString()
+                +"&lt;/div&gt;<br/></html>";
     }
 
     public int get_x(){

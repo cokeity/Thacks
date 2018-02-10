@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/Paragraph.java
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/page.java
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/Container.java
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/HTMLElement.java
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/PositionCSS.java
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/test.java
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/Image.java
-/Users/clairec/Desktop/Thacks/src/main/java/com/mycompany/app/Header.java
-=======
-/Users/arkaroy/Documents/GitHub/Thacks/src/main/java/com/mycompany/app/MoreDraw.java
 /Users/arkaroy/Documents/GitHub/Thacks/src/main/java/com/mycompany/app/Container.java
 /Users/arkaroy/Documents/GitHub/Thacks/src/main/java/com/mycompany/app/Paragraph.java
 /Users/arkaroy/Documents/GitHub/Thacks/src/main/java/com/mycompany/app/Header.java
@@ -18,4 +7,3 @@
 /Users/arkaroy/Documents/GitHub/Thacks/src/main/java/com/mycompany/app/HTMLElement.java
 /Users/arkaroy/Documents/GitHub/Thacks/src/main/java/com/mycompany/app/PositionCSS.java
 /Users/arkaroy/Documents/GitHub/Thacks/src/main/java/com/mycompany/app/test.java
->>>>>>> arka-thacks
