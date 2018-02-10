@@ -2,12 +2,12 @@ package com.mycompany.app;
 
 import java.util.ArrayList;
 
-public class page{
+public class Page{
 
     int id;
     private ArrayList<Container> containers = new ArrayList<Container>();
     
-    public page(){
+    public Page(){
 
     }
 

@@ -6,13 +6,14 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 
-public class test {
+public class GUI {
     public static JPanel site_view;
     public static JPanel code_view;
     public static ArrayList<JLabel> html_labels = new ArrayList<JLabel>();
     public static ArrayList<JLabel> css_labels = new ArrayList<JLabel>();
     public static ArrayList<JLabel> blox = new ArrayList<JLabel>();
     public static JLabel wireframe;
+    public static String selected = "html";
 
     public static void main(String[] args){
         System.out.println("Hello World");
@@ -72,10 +73,10 @@ public class test {
         css_tab.setForeground(bg);
 
         //create html arr
-        String[] fruits = new String[] { " <html>", "\t\t<head>", "\t\t</head>", " </html>" };
+        String[] fruits = new String[] { "<html> &lt;html&gt; <br/>&emsp;hello <br/> &emsp;&emsp;hihihih</html>", "<html>&lt;p&gt;<html>", "\t\t</head>", " </html>" };
         create_html_labels(fruits);
         //create css arr
-        String[] fruit = new String[] { "<css>", "Apple", "Pear", "</css>" };
+        String[] fruit = new String[] { "<html>&lt;css&gt;<br/>boom</html>", "Apple", "Pear", "</css>" };
         create_css_labels(fruit);
         remove_css_labels(); //start off with only seeing html
 
@@ -90,6 +91,7 @@ public class test {
             css_tab.setForeground(bg);
             display_html_labels();
             remove_css_labels();
+            selected = "html";
           }
         });
 
@@ -104,6 +106,7 @@ public class test {
             html_tab.setForeground(bg);
             remove_html_labels();
             display_css_labels();
+            selected = "css";
           }
         });
 
@@ -138,17 +141,37 @@ public class test {
 
     }
 
+    public static void update(ArrayList<Page> page) {
+        Page cur_page = page[0];
+        ArrayList<Containers> all_containers = cur_page.containers;
+        String[] html_labels_inp = transform_html(all_containers);
+        create_html_labels(html_labels_inp);
+        String[] css_labels_inp = transform_css
+
+
+        if(selected == "html") {
+            display_html_labels();
+            remove_css_labels();
+        } else {
+            display_css_labels();
+            remove_html_labels();
+        }
+
+    }
+
     public static void create_html_labels(String[] in_str) {
         JLabel temp;
         int x = 10;
         int y = 50;
         int width = 480;
         int inc = 20; //for height
+        int l;
         for (String str: in_str) {
+            l = countLines(str);
             temp = new JLabel(str);
-            System.out.print(str);
-            temp.setBounds(x, y, width, inc);
-            y += inc;
+            System.out.print(str + l);
+            temp.setBounds(x, y, width, inc*l);
+            y += (inc*l);
             temp.setForeground(Color.white);
             html_labels.add(temp);
             code_view.add(temp);
@@ -176,11 +199,13 @@ public class test {
         int y = 50;
         int width = 480;
         int inc = 20; //for height
+        int l;
         for (String str: in_str) {
+            l = countLines(str);
             temp = new JLabel(str);
             System.out.print(str);
-            temp.setBounds(x, y, width, inc);
-            y += inc;
+            temp.setBounds(x, y, width, inc*l);
+            y += (inc*l);
             temp.setForeground(Color.white);
             css_labels.add(temp);
             code_view.add(temp);
@@ -218,6 +243,8 @@ public class test {
             height = r[3]; //divide 2 for scaling
             String sample = "enter text here";
             temp = new JLabel(sample);
+            temp.setHorizontalAlignment(JLabel.CENTER);
+            temp.setVerticalAlignment(JLabel.CENTER);
             temp.setOpaque(true);
             temp.setBounds(x, y, width, height);
             temp.setBackground(Color.gray);
@@ -234,7 +261,35 @@ public class test {
         site_view.repaint();
     }
 
-   //public static void pixy_to_java_coord{}
+   public static int[] pixy_to_java_coord(int[] pixcoord) {
+        int[] ret = {0,0,0,0};
+        if (pixcoord.length != 4) {
+            return ret;
+        } 
+        ret[0] = pixcoord[0]-pixcoord[2]/2; //change x
+        ret[1] = pixcoord[1]-pixcoord[3]/2; //change y
+        //adjust to ui coord
+        ret[0] /= 2;
+        ret[1] /= 2;
+        ret[2] /= 2;
+        ret[3] /= 2;
+        return ret; 
+   }
+
+    public static int countLines(String str) {
+        if(str == null || str.isEmpty())
+        {
+            return 0;
+        }
+        int lines = 1;
+        int pos = 0;
+        while ((pos = str.indexOf("<br/>", pos) + 1) != 0) {
+            lines++;
+        }
+        return lines;
+    }
+
+
 
 
 
