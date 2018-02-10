@@ -11,6 +11,8 @@ public class test {
     public static JPanel code_view;
     public static ArrayList<JLabel> html_labels = new ArrayList<JLabel>();
     public static ArrayList<JLabel> css_labels = new ArrayList<JLabel>();
+    public static ArrayList<JLabel> blox = new ArrayList<JLabel>();
+    public static JLabel wireframe;
 
     public static void main(String[] args){
         System.out.println("Hello World");
@@ -41,9 +43,6 @@ public class test {
         site_view.setPreferredSize(new Dimension(800,700));
         site_view.setBackground(pastelGreen);
 
-        //add scroll for preview
-        JScrollPane scroll = new JScrollPane(site_view);
-
         //add frames
         frame.add(code_view, BorderLayout.EAST);
         frame.add(site_view, BorderLayout.WEST);
@@ -73,7 +72,7 @@ public class test {
         css_tab.setForeground(bg);
 
         //create html arr
-        String[] fruits = new String[] { "<htmllllllllllll>", "Apple", "Pear", "</html>" };
+        String[] fruits = new String[] { " <html>", "\t\t<head>", "\t\t</head>", " </html>" };
         create_html_labels(fruits);
         //create css arr
         String[] fruit = new String[] { "<css>", "Apple", "Pear", "</css>" };
@@ -115,13 +114,23 @@ public class test {
         code_view.repaint();
 
         //wireframe
-        JLabel wireframe = new JLabel("");
+        wireframe = new JLabel("");
         wireframe.setBounds(40, 7, 720, 885);
         wireframe.setOpaque(true);
         wireframe.setBackground(Color.white);
 
         site_view.add(wireframe);
         wireframe.repaint();
+
+
+        //add building blox
+        ArrayList<int[]> test = new ArrayList<int[]>();
+        int[] t1 = {0,0,100,100};
+        test.add(t1);
+        int[] t2 = {350,40,150,100};
+        test.add(t2);
+        create_blox(test);
+        display_bloxz();
 
 
         frame.pack();
@@ -194,7 +203,39 @@ public class test {
         }
     }
 
-    //public static void print
+
+
+    public static void create_blox(ArrayList<int[]> test) {
+        JLabel temp;
+        int x;
+        int y;
+        int width;
+        int height;
+        for (int[] r: test) {
+            x = r[0];
+            y = r[1];
+            width = r[2];
+            height = r[3]; //divide 2 for scaling
+            String sample = "enter text here";
+            temp = new JLabel(sample);
+            temp.setOpaque(true);
+            temp.setBounds(x, y, width, height);
+            temp.setBackground(Color.gray);
+            temp.setForeground(Color.white);
+            blox.add(temp);
+        }
+    }
+
+    public static void display_bloxz() {
+        for (JLabel jl: blox) {
+            System.out.print(jl);
+            wireframe.add(jl);
+        }
+        site_view.repaint();
+    }
+
+   //public static void pixy_to_java_coord{}
+
 
 
 }
