@@ -5,4 +5,5 @@ com/mycompany/app/Paragraph.class
 com/mycompany/app/Header.class
 com/mycompany/app/HTMLElement.class
 com/mycompany/app/Image.class
+com/mycompany/app/MoreDraw.class
 com/mycompany/app/page.class
