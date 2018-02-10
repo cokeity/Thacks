@@ -6,7 +6,8 @@ public class Paragraph extends HTMLElement{
 
     private String text;
 
-    public Paragraph(String text){
+    public Paragraph(String text, String type){
+        super(type);
         this.text = text;
     }
 

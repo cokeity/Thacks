@@ -6,5 +6,15 @@ com/mycompany/app/Header.class
 com/mycompany/app/Paragraph.class
 com/mycompany/app/HTMLElement.class
 com/mycompany/app/Image.class
+<<<<<<< HEAD
 com/mycompany/app/Page.class
 com/mycompany/app/GUI$1.class
+=======
+<<<<<<< HEAD
+com/mycompany/app/page.class
+=======
+com/mycompany/app/Comm.class
+com/mycompany/app/Page.class
+com/mycompany/app/MoreDraw.class
+>>>>>>> arka-thacks
+>>>>>>> b133b32303cf06059ddde6abc4d5c2a992b13fdd
