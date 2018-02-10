@@ -11,7 +11,7 @@ public class Page{
     private int height;
 
     private ArrayList<Container> containers = new ArrayList<Container>();
-    
+
     public Page(int id, int x, int y, int width, int height){
         this.id = id;
         this.x = x;
