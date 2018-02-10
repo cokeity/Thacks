@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class Image extends HTMLElement{
 
-    private String src = "dopey.gif";
+    private String src;
 
-    public Image(String text){
+    public Image(String src, String type){
+        super(type);
+        this.src = src;
     }
 
     public String to_html(){
