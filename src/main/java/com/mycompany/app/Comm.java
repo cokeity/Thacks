@@ -199,9 +199,9 @@ public class Comm {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        test t = new test();
+        GUI2 g = new GUI2();
 
-        t.setup();
+        g.setup();
         
         SerialPort sp = SerialPort.getCommPort("/dev/cu.usbmodem1421");
 
@@ -241,7 +241,7 @@ public class Comm {
                     
                     System.out.println("sending request\n\n"+update_request);
                     process_request_body(update_request);
-
+                    g.update(page);
                     System.out.println(update_request);
                     update_request = "";
                 }
