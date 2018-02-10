@@ -72,6 +72,7 @@ public class GUI {
         css_tab.setBackground(true_blk);
         css_tab.setForeground(bg);
 
+        /*
         //create html arr
         String[] fruits = new String[] { "<html> &lt;html&gt; <br/>&emsp;hello <br/> &emsp;&emsp;hihihih</html>", "<html>&lt;p&gt;<html>", "\t\t</head>", " </html>" };
         create_html_labels(fruits);
@@ -79,6 +80,7 @@ public class GUI {
         String[] fruit = new String[] { "<html>&lt;css&gt;<br/>boom</html>", "Apple", "Pear", "</css>" };
         create_css_labels(fruit);
         remove_css_labels(); //start off with only seeing html
+        */
 
         //html listener
         html_tab.addActionListener(new ActionListener()
@@ -127,6 +129,7 @@ public class GUI {
 
 
         //add building blox
+        /*
         ArrayList<int[]> test = new ArrayList<int[]>();
         int[] t1 = {0,0,100,100};
         test.add(t1);
@@ -134,6 +137,7 @@ public class GUI {
         test.add(t2);
         create_blox(test);
         display_bloxz();
+        */
 
 
         frame.pack();
@@ -141,13 +145,15 @@ public class GUI {
 
     }
 
-    public static void update(ArrayList<Page> page) {
-        Page cur_page = page[0];
-        ArrayList<Containers> all_containers = cur_page.containers;
+    public static void update(Page page) {
+        ArrayList<Container> all_containers =  page.get_containers();
         String[] html_labels_inp = transform_html(all_containers);
         create_html_labels(html_labels_inp);
-        String[] css_labels_inp = transform_css
-
+        String[] css_labels_inp = transform_css(all_containers);
+        create_css_labels(css_labels_inp);
+        ArrayList<int[]> blox_inp = transform_blox(all_containers);
+        create_blox(blox_inp);
+        display_bloxz();
 
         if(selected == "html") {
             display_html_labels();
@@ -156,6 +162,30 @@ public class GUI {
             display_css_labels();
             remove_html_labels();
         }
+    }
+
+    public static String[] transform_html(ArrayList<Container> c) {
+        int s = c.size();
+        String[] ret = new String[s+2];
+        ret[0] = "<html>&lt;!DOCTYPE html&gt; <br/> &lt;html&gt; <br/> &lt;&emsp;head&gt; <br/> &lt;link rel=&quotstylesheet&quot href=&quotstylesheets/main.css&quot&gt;<br/> &lt;&emsp;/head&gt; </html>";
+        int i = 1;
+        for(Container samp: c) {
+            ret[i] = samp.to_html();
+            i++;
+        }
+        ret[s+1] = "<html>&lt;/html&gt;</html>";
+        return ret;
+    }
+
+    public static String[] transform_css(ArrayList<Container> c) {
+        int s = c.size();
+        String[] ret = new String[s];
+        int i = 0;
+        for(Container samp: c) {
+            ret[i] = samp.to_html();
+            i++;
+        }
+        return ret;
 
     }
 
@@ -253,6 +283,16 @@ public class GUI {
         }
     }
 
+    public static ArrayList<int[]> transform_blox(ArrayList<Container> c) {
+        ArrayList<int[]> ret = new ArrayList<int[]>();
+        int[] temp;
+        for(Container samp: c) {
+            temp = container_to_pixy(samp);
+            ret.add(pixy_to_java_coord(temp));
+        }
+        return ret;
+    }
+
     public static void display_bloxz() {
         for (JLabel jl: blox) {
             System.out.print(jl);
@@ -274,6 +314,15 @@ public class GUI {
         ret[2] /= 2;
         ret[3] /= 2;
         return ret; 
+   }
+
+   public static int[] container_to_pixy(Container c) {
+      int[] ret = new int[4];
+      ret[0] = c.get_x();
+      ret[1] = c.get_y();
+      ret[2] = c.get_width();
+      ret[3] = c.get_height();
+      return ret;
    }
 
     public static int countLines(String str) {
