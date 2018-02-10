@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 
-public class GUI {
+public class GUI2 {
     public static JPanel site_view;
     public static JPanel code_view;
     public static ArrayList<JLabel> html_labels = new ArrayList<JLabel>();
@@ -146,14 +146,32 @@ public class GUI {
 
     }
 
+    public static void remove() {
+        
+        for (JLabel l : html_labels){
+            code_view.remove(l);
+            code_view.revalidate();
+            code_view.repaint();
+        
+        }
+        for (JLabel l : css_labels){
+            code_view.remove(l);
+            code_view.revalidate();
+            code_view.repaint();
+        }
+    }
+
     public static void update(Page page) {
+        remove();
         ArrayList<Container> all_containers =  page.get_containers();
+        String[] html_type = make_types_html(all_containers);
+        String[] css_type = make_types_css(all_containers);
         String[] html_labels_inp = transform_html(all_containers);
-        create_html_labels(html_labels_inp);
+        create_html_labels(html_labels_inp, html_type);
         String[] css_labels_inp = transform_css(all_containers);
-        create_css_labels(css_labels_inp);
+        create_css_labels(css_labels_inp, css_type);
         ArrayList<int[]> blox_inp = transform_blox(all_containers);
-        create_blox(blox_inp);
+        create_blox(blox_inp, css_type);
         display_bloxz();
 
         if(selected == "html") {
@@ -163,6 +181,26 @@ public class GUI {
             display_css_labels();
             remove_html_labels();
         }
+    }
+    /*
+    public static ArrayList<JLabel> make_html_labels(ArrayList<Container> c) {
+        int s = c.size();
+        String tstr = "<html>&lt;!DOCTYPE html&gt; <br/> &lt;html&gt; <br/> &lt;&emsp;head&gt; <br/> &lt;link rel=&quotstylesheet&quot href=&quotstylesheets/main.css&quot&gt;<br/> &lt;&emsp;/head&gt; </html>";
+        JLabel top = new JLabel(tstr);
+    }
+    */
+
+    public static String[] make_types_html(ArrayList<Container> c) {
+        int s = c.size();
+        String[] ret = new String[s+2];
+        ret[0] = "default";
+        int i = 1;
+        for(Container samp: c) {
+            ret[i] = samp.get_element().get_type();
+            i++;
+        }
+        ret[s+1] = "default";
+        return ret;
     }
 
     public static String[] transform_html(ArrayList<Container> c) {
@@ -190,20 +228,37 @@ public class GUI {
 
     }
 
-    public static void create_html_labels(String[] in_str) {
+    public static void create_html_labels(String[] in_str, String[] type_html) {
         JLabel temp;
         int x = 10;
         int y = 50;
         int width = 480;
         int inc = 20; //for height
         int l;
-        for (String str: in_str) {
+        Color color = Color.white;
+        int i;
+        for (i = 0; i < in_str.length; i++) {
+            String str = in_str[i];
             l = countLines(str);
             temp = new JLabel(str);
             System.out.print(str + l);
             temp.setBounds(x, y, width, inc*l);
             y += (inc*l);
-            temp.setForeground(Color.white);
+            switch (type_html[i]){
+                case "default":
+                    color = Color.white;
+                    break;
+                case "header":
+                    color = Color.green;
+                    break;
+                case "paragraph":
+                    color = Color.blue;
+                    break;
+                case "image":
+                    color = Color.yellow;
+                    break;
+            }
+            temp.setForeground(color);
             html_labels.add(temp);
             code_view.add(temp);
             code_view.repaint();
@@ -224,20 +279,45 @@ public class GUI {
         }
     }
 
-    public static void create_css_labels(String[] in_str) {
+    public static String[] make_types_css(ArrayList<Container> c) {
+        int s = c.size();
+        int i = 0;
+        String[] ret = new String [s];
+        for(Container samp: c) {
+            ret[i] = samp.get_element().get_type();
+            i++;
+        }
+        return ret;
+    }
+
+    public static void create_css_labels(String[] in_str, String[] css_type) {
         JLabel temp;
         int x = 10;
         int y = 50;
         int width = 480;
         int inc = 20; //for height
         int l;
-        for (String str: in_str) {
+        Color color = Color.white;
+        int i;
+        for (i = 0; i < in_str.length; i++)  {
+            String str = in_str[i];
             l = countLines(str);
             temp = new JLabel(str);
             System.out.print(str);
             temp.setBounds(x, y, width, inc*l);
             y += (inc*l);
-            temp.setForeground(Color.white);
+            switch (css_type[i]){
+                case "header":
+                    color = Color.green;
+                    break;
+                case "paragraph":
+                    color = Color.blue;
+                    break;
+                case "image":
+                    color = Color.yellow;
+                    break;
+            }
+            temp.setForeground(color);
             css_labels.add(temp);
             code_view.add(temp);
             code_view.repaint();
@@ -261,13 +341,16 @@ public class GUI {
 
 
 
-    public static void create_blox(ArrayList<int[]> test) {
+    public static void create_blox(ArrayList<int[]> test, String[] css_type) {
         JLabel temp;
         int x;
         int y;
         int width;
         int height;
-        for (int[] r: test) {
+        Color color = Color.white;
+        int i;
+        for (i = 0; i < test.size(); i++) {
+            int[] r = test.get(i);
             x = r[0];
             y = r[1];
             width = r[2];
@@ -278,7 +361,18 @@ public class GUI {
             temp.setVerticalAlignment(JLabel.CENTER);
             temp.setOpaque(true);
             temp.setBounds(x, y, width, height);
-            temp.setBackground(Color.gray);
+            switch (css_type[i]){
+                case "header":
+                    color = Color.green;
+                    break;
+                case "paragraph":
+                    color = Color.blue;
+                    break;
+                case "image":
+                    color = Color.yellow;
+                    break;
+            }
+            temp.setBackground(color);
             temp.setForeground(Color.white);
             blox.add(temp);
         }

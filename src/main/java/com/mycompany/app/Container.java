@@ -42,7 +42,7 @@ public class Container{
 
     public String to_html(){
         return "<html>&lt;div class=\""+classname+"\"&gt;<br/>"+
-                "&emsp;"+element.toString()
+                "&emsp;"+"enter text here<br/>"
                 +"&lt;/div&gt;<br/></html>";
     }
 
