@@ -12,9 +12,9 @@ public class Header extends HTMLElement{
     }
 
     public String to_html(){
-        return "<h>\n" +
-               "\t" + text + "\n" +
-               "</h>\n";
+        return "&lt;h&gt;<br/>" +
+               "&emsp;" + text + "<br/>" +
+               "&lt;/h&gt;<br/>";
     }
 
 }

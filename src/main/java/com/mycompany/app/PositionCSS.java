@@ -45,17 +45,17 @@ public class PositionCSS{
     }
 
     public String to_css(){
-        String css = 
-            "."+name+" {\n"+
-            "\tposition: "+position+";\n"+
-            "\tleft: "+left+";\n"+
-            "\ttop: "+top+";\n"+
-            "\twidth: "+WIDTH+";\n";
+        String css =
+            "<html>."+name+" {<br/>"+
+            "&emsp;position: "+position+";<br/>"+
+            "&emsp;left: "+left+";<br/>"+
+            "&emsp;top: "+top+";<br/>"+
+            "&emsp;width: "+WIDTH+";<br/>";
         for (Map.Entry<String, String> entry : attributes.entrySet()){
-            css+="\t"+entry.getKey()+": "+entry.getValue()+";\n";
+            css+="&emsp;"+entry.getKey()+": "+entry.getValue()+";<br/>";
         }
 
-        css+="}";
+        css+="}</html>";
 
         return css;
     }

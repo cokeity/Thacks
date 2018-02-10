@@ -15,7 +15,11 @@ public class GUI {
     public static JLabel wireframe;
     public static String selected = "html";
 
-    public static void main(String[] args){
+    public test(){
+
+    }
+
+    public static void setup(){
         System.out.println("Hello World");
 
         //set colors

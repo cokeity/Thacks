@@ -12,9 +12,9 @@ public class Paragraph extends HTMLElement{
     }
 
     public String to_html(){
-        return "<p>\n" +
-               "\t" + text + "\n" +
-               "</p>\n";
+        return "&lt;p&gt;<br/>" +
+               "&emsp;" + text + "<br/>" +
+               "&lt;/p&gt;<br/>";
     }
 
 }

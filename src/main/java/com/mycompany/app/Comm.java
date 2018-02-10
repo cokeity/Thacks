@@ -1,5 +1,8 @@
 package com.mycompany.app;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 import com.fazecast.jSerialComm.*;
 import java.io.InputStream;
@@ -9,15 +12,18 @@ import java.util.HashSet;
 
 public class Comm {
 
-    private static ArrayList<Page> pages = new ArrayList<Page>();
+
+    //private static ArrayList<Page> pages = new ArrayList<Page>();
     
+    public static Page page = new Page(0, 0, 0, 0, 0);
+
     //page id to assign next
     private static int pid = 0;
     private static String classname = "dopey";
     private static int cname = 0;
 
 
-    public static void filter_pages(HashSet<String> pos){
+   /* public static void filter_pages(HashSet<String> pos){
         int i;
         for (i = 0; i < pages.size() ; i++){
             Page p = pages.get(i);
@@ -27,19 +33,21 @@ public class Comm {
                 pages.remove(i);
             }
         }
-    }
+    }*/
 
     public static void filter_containers(HashSet<String> pos){
-        int i;
+       /* int i;
         for (i = 0; i < pages.size(); i++){
             int j;
-            Page p = pages.get(i);
-            ArrayList<Container> cont = p.get_containers();
+            Page p = pages.get(i);*/
+        if (page != null){
+            ArrayList<Container> cont = page.get_containers();
+            int j;
             for (j = 0; j < cont.size(); j++){
-                Container c = cont.get(i);
+                Container c = cont.get(j);
                 String coord = c.get_x()+":"+c.get_y();
                 if (!pos.contains(coord)){
-                    p.remove_container(i);
+                    page.remove_container(j);
                 }
             }
         }
@@ -47,7 +55,7 @@ public class Comm {
 
     //returns page to put container in, or null if 
     //page doesn't exist there or container already exists
-    public static Page get_page(int x, int y){
+    /*public static Page get_page(int x, int y){
         for (Page p : pages){
             int left = p.get_x()+p.get_width()/2;
             int right = p.get_x()-p.get_width()/2;
@@ -65,43 +73,66 @@ public class Comm {
             }
         }
         return null;
-    }
+    }*/
 
-    public static boolean page_exists(int x, int y){
+    /*public static boolean page_exists(int x, int y){
         for (Page p : pages){
             if (p.get_x() == x && p.get_y() == y)
                 return true;
         }
         return false;
-    }
+    }*/
 
     public static void process_request_line(String sig, int x, int y
             , int width, int height)
     {
         switch (sig) {
             case "1" :
-                if (!page_exists(x, y)){
+             //   if (!page_exists(x, y)){
+                if (page == null){
                     Page p = new Page(pid, x, y, width, height);
-                    pid++;
-                    pages.add(p);
+                } else {
+                    page.set_x(x);
+                    page.set_y(y);
+                    page.set_width(width);
+                    page.set_height(height);
                 }
+             //       pid++;
+             //       pages.add(p);
+              //  }
                 break;
             case "2" :
-                Page p = get_page(x, y);
-                if (p != null){
+                //Page p = get_page(x, y);
+                if (page != null){
                     Header h = new Header("enter text here", "header");
                     Container n = new Container(classname+Integer.toString(cname), "absolute"
-                            , Integer.toString(x), Integer.toString(y), h, p.get_id()
+                            , Integer.toString(x), Integer.toString(y), h, page.get_id()
                             , x, y, width, height);
                     cname++;
-                    p.add_container(n);
+                    page.add_container(n);
                 }
                 break;
             case "3" :
-
+                //p = get_page(x, y);
+                if (page != null){
+                    Paragraph par = new Paragraph("enter paragraph here", "paragraph");
+                    Container n = new Container(classname+Integer.toString(cname), "absolute"
+                            , Integer.toString(x), Integer.toString(y), par, page.get_id()
+                            , x, y, width, height);
+                    cname++;
+                    page.add_container(n);
+                }
                 break;
             case "4" :
-
+                //p = get_page(x, y);
+                if (page != null){
+                    Image im = new Image("enter image source here", "image");
+                    Container n = new Container(classname+Integer.toString(cname), "absolute"
+                            , Integer.toString(x), Integer.toString(y), im, page.get_id()
+                            , x, y, width, height);
+                    cname++;
+                    page.add_container(n);
+                }
                 break;
             case "5" :
 
@@ -121,7 +152,7 @@ public class Comm {
         int i;
         String sig = "", x = "", y = "", width = "", height = "";
 
-        HashSet<String> pages = new HashSet<String>();
+        //HashSet<String> pages = new HashSet<String>();
         HashSet<String> containers = new HashSet<String>();
 
         for (i = 0; i < lines.length; i++){
@@ -143,7 +174,7 @@ public class Comm {
             try {
                 
                 if (sig.equals("1")){
-                    pages.add(x + ":" + y);
+                    //pages.add(x + ":" + y);
                 } else {
                     containers.add(x + ":" + y);
                 }
@@ -162,12 +193,16 @@ public class Comm {
             width = "";
             height = "";
         }
-        filter_pages(pages);
+        //filter_pages(pages);
         filter_containers(containers);
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        test t = new test();
+
+        t.setup();
+        
         SerialPort sp = SerialPort.getCommPort("/dev/cu.usbmodem1421");
 
         sp.setComPortParameters(9600, 8, 1, 0);

@@ -12,7 +12,7 @@ public class Image extends HTMLElement{
     }
 
     public String to_html(){
-        return "<img src = "+ src +">\n";
+        return "&lt;img src = "+ src +"&gt;&emsp;<br/>";
     }
 
 }

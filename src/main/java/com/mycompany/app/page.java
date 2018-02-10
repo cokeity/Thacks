@@ -60,12 +60,23 @@ public class Page{
         this.y = ny;
     }
 
+    public void set_width(int w){
+        this.width = w;
+    }
+
+    public void set_height(int h){
+        this.height = h;
+    }
+
     public String to_html(){
-        String html = "<html>\n";
+        String html = "<!DOCTYPE html>\n"+
+                      "<html>\n";
         for (Container c: containers){
             html+=c.to_html();
         }
         html += "</html>\n";
         return html;
     }
+
+
 }
