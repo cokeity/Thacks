@@ -198,7 +198,8 @@ public class Comm {
             }
         }
         //filter_pages(pages);
-        filter_containers(containers);
+        //filter_containers(containers);
+       
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -246,10 +247,13 @@ public class Comm {
                     System.out.println("sending request\n\n"+update_request);
                     process_request_body(update_request);
                     g.update(page);
+
                     System.out.println("containerssssssssssss: "+page.get_containers().size());
-                    Thread.sleep(10000);
-                    System.out.println(update_request);
+                    page = new Page(0, 0, 0, 0, 0);
                     update_request = "";
+                    Thread.sleep(5000);
+                    //System.out.println(update_request);
+                    
                 
                 }
                 else if (form_request)

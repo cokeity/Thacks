@@ -11,6 +11,7 @@ public class Container{
     private int y;
     private int width;
     private int height;
+    private String type;
 
     private PositionCSS style;
     private HTMLElement element;
@@ -24,6 +25,7 @@ public class Container{
         this.page = page;
         this.x = x;
         this.y = y;
+        this.type = element.get_type();
         this.width = width;
         this.height = height;
     }
@@ -41,6 +43,25 @@ public class Container{
     }
 
     public String to_html(){
+
+        switch (type) {
+            case "header":
+                Header x = new Header("enter text here", "header");
+                return "<html>&lt;div class=\""+classname+"\"&gt;<br/>"+
+                "&emsp;"+x.to_html()+"<br/>"
+                +"&lt;/div&gt;<br/></html>";
+            case "paragraph":
+                Paragraph y = new Paragraph("enter paragraph here", "paragraph");
+                return "<html>&lt;div class=\""+classname+"\"&gt;<br/>"+
+                "&emsp;"+y.to_html()+"<br/>"
+                +"&lt;/div&gt;<br/></html>";
+            case "image":
+                Image z = new Image("enter image source here", "image");
+                return "<html>&lt;div class=\""+classname+"\"&gt;<br/>"+
+                "&emsp;"+z.to_html()+"<br/>"
+                +"&lt;/div&gt;<br/></html>";
+        }
+
         return "<html>&lt;div class=\""+classname+"\"&gt;<br/>"+
                 "&emsp;"+"enter text here<br/>"
                 +"&lt;/div&gt;<br/></html>";
