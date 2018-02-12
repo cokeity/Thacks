@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class GUI2 {
@@ -159,6 +160,7 @@ public class GUI2 {
             code_view.revalidate();
             code_view.repaint();
         }
+        for (JLabel l : blox)
     }
 
     public static void update(Page page) {
@@ -173,6 +175,10 @@ public class GUI2 {
         ArrayList<int[]> blox_inp = transform_blox(all_containers);
         create_blox(blox_inp, css_type);
         display_bloxz();
+
+        System.out.println("blocks imp ");
+        for (int[] i : blox_inp)
+            System.out.println(Arrays.toString(i));
 
         if(selected == "html") {
             display_html_labels();
@@ -221,7 +227,7 @@ public class GUI2 {
         String[] ret = new String[s];
         int i = 0;
         for(Container samp: c) {
-            ret[i] = samp.to_html();
+            ret[i] = samp.get_css_style().to_css();
             i++;
         }
         return ret;
@@ -401,13 +407,17 @@ public class GUI2 {
         if (pixcoord.length != 4) {
             return ret;
         } 
+
+        for (int i : pixcoord)
+            System.out.println("HI::::::::::::::::::::::::::::::::::: "+i);
+
         ret[0] = pixcoord[0]-pixcoord[2]/2; //change x
         ret[1] = pixcoord[1]-pixcoord[3]/2; //change y
         //adjust to ui coord
         ret[0] /= 2;
         ret[1] /= 2;
-        ret[2] /= 2;
-        ret[3] /= 2;
+        ret[2] = pixcoord[2]/ 2;
+        ret[3] = pixcoord[3]/ 2;
         return ret; 
    }
 
@@ -417,6 +427,7 @@ public class GUI2 {
       ret[1] = c.get_y();
       ret[2] = c.get_width();
       ret[3] = c.get_height();
+      System.out.println("REEEEEEEEEEEETEETEEEEETS:::::::::::::::::::::::::::::::::::::::::::::::: "+ret[0]+" "+ret[1]);
       return ret;
    }
 
